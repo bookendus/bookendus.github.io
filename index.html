@@ -1,4 +1,435 @@
-<html>
-    <head><title>Things Brain</title></head>
-    <body>Hello World</body>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>씽즈브레인(Things Brain Inc)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fa;
+      color: #222;
+      min-height: 100vh;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1.5px solid #e0e8ef;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px 0 rgba(47,215,230,0.05);
+    }
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0 16px 0;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      user-select: none;
+    }
+    .logo-svg {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-ko {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #222;
+      letter-spacing: 1.2px;
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    }
+    .logo-en {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: #2fd7e6;
+      letter-spacing: 1.8px;
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    }
+    .menu {
+      display: flex;
+      gap: 34px;
+    }
+    .menu a {
+      color: #222;
+      text-decoration: none;
+      font-size: 1.07rem;
+      font-weight: 500;
+      position: relative;
+      padding: 2px 0;
+      transition: color 0.18s;
+    }
+    .menu a:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+      transition: width .22s;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      border-radius: 2px;
+    }
+    .menu a:hover {
+      color: #2fd7e6;
+    }
+    .menu a:hover:after {
+      width: 100%;
+    }
+    .hero {
+      background: linear-gradient(90deg, #e7f6fa 0%, #f7fbff 100%);
+      border-radius: 0 0 32px 32px;
+      padding: 56px 0 36px 0;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 32px 0 rgba(47,215,230,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .hero-text {
+      flex: 1 1 340px;
+      min-width: 320px;
+    }
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 18px;
+      line-height: 1.2;
+    }
+    .hero-desc {
+      font-size: 1.18rem;
+      color: #444;
+      margin-bottom: 26px;
+      line-height: 1.6;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .hero-btn {
+      padding: 13px 34px;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+      color: #fff;
+      font-size: 1.13rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(47,215,230,0.10);
+      transition: background 0.2s, color 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .hero-btn.outline {
+      background: transparent;
+      border: 2px solid #2fd7e6;
+      color: #2fd7e6;
+      box-shadow: none;
+    }
+    .hero-btn:hover {
+      background: #fff;
+      color: #2fd7e6;
+      box-shadow: 0 4px 24px rgba(47,215,230,0.16);
+    }
+    .hero-btn.outline:hover {
+      background: #2fd7e6;
+      color: #fff;
+    }
+    .hero-graphic {
+      flex: 1 1 280px;
+      min-width: 240px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-graphic svg {
+      width: 240px;
+      height: 180px;
+      max-width: 100%;
+      opacity: 0.95;
+    }
+    .main-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin: 0 0 48px 0;
+    }
+    .main-card {
+      flex: 1 1 320px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 18px 0 rgba(47,215,230,0.07);
+      padding: 36px 28px 32px 28px;
+      min-width: 260px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0;
+      transition: box-shadow 0.18s;
+    }
+    .main-card:hover {
+      box-shadow: 0 8px 32px 0 rgba(47,215,230,0.13);
+    }
+    .main-card .card-title {
+      font-size: 1.23rem;
+      font-weight: bold;
+      color: #2fd7e6;
+      margin-bottom: 12px;
+    }
+    .main-card .card-desc {
+      color: #444;
+      font-size: 1.07rem;
+      line-height: 1.6;
+      min-height: 60px;
+    }
+    .card-more {
+      display: inline-block;
+      margin-top: 18px;
+      color: #6a82fb;
+      font-size: 1.02rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.18s;
+    }
+    .card-more:hover {
+      color: #2fd7e6;
+      text-decoration: underline;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1c3e60;
+      margin: 48px 0 18px 0;
+      letter-spacing: 1.2px;
+    }
+    .timeline {
+      background: #f7fbff;
+      border-radius: 16px;
+      padding: 24px 18px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 8px 0 rgba(47,215,230,0.03);
+    }
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 1.02rem;
+      color: #333;
+    }
+    .timeline-date {
+      font-size: 0.98rem;
+      color: #2fd7e6;
+      min-width: 100px;
+      font-weight: 600;
+    }
+    footer {
+      background: #222;
+      color: #b6eaff;
+      text-align: center;
+      padding: 36px 0 28px 0;
+      margin-top: 60px;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+      border-top: 1.5px solid #2fd7e6;
+      font-family: 'Montserrat', 'Nanum Gothic', sans-serif;
+    }
+    @media (max-width: 900px) {
+      .container {
+        width: 98%;
+      }
+      .hero-content {
+        flex-direction: column;
+        gap: 32px;
+      }
+      .main-section {
+        flex-direction: column;
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <!-- Things Brain Inc. 로고 SVG -->
+          <svg class="logo-svg" viewBox="0 0 44 44" fill="none">
+            <defs>
+              <radialGradient id="brainGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#2fd7e6" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#6a82fb" stop-opacity="0.2"/>
+              </radialGradient>
+              <linearGradient id="brainLine" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#2fd7e6"/>
+                <stop offset="100%" stop-color="#6a82fb"/>
+              </linearGradient>
+            </defs>
+            <!-- 두뇌 외곽 -->
+            <ellipse cx="22" cy="22" rx="19" ry="18" fill="url(#brainGlow)" />
+            <ellipse cx="22" cy="22" rx="19" ry="18" stroke="url(#brainLine)" stroke-width="2.5"/>
+            <!-- 연결 네트워크 -->
+            <path d="M13 19 Q22 9 31 19" stroke="#2fd7e6" stroke-width="1.3" fill="none"/>
+            <path d="M13 25 Q22 35 31 25" stroke="#6a82fb" stroke-width="1.3" fill="none"/>
+            <!-- 중앙 원 -->
+            <circle cx="22" cy="22" r="4.5" fill="#fff" stroke="#2fd7e6" stroke-width="1.3"/>
+            <!-- 네트워크 노드 -->
+            <circle cx="13" cy="19" r="2" fill="#2fd7e6"/>
+            <circle cx="31" cy="19" r="2" fill="#2fd7e6"/>
+            <circle cx="13" cy="25" r="2" fill="#6a82fb"/>
+            <circle cx="31" cy="25" r="2" fill="#6a82fb"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-ko">씽즈브레인</span>
+            <span class="logo-en">Things Brain Inc.</span>
+          </div>
+        </div>
+        <div class="menu">
+          <a href="#about">About</a>
+          <a href="#solutions">Solutions</a>
+          <a href="#investors">Investors</a>
+          <a href="#clients">Clients</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <div class="hero-title">Human-Centric AI,<br>Empowering Your Tomorrow</div>
+        <div class="hero-desc">
+          인간을 돕고 지원하는 인공지능,<br>
+          내일을 함께 만듭니다.
+        </div>
+        <div class="hero-btns">
+          <button class="hero-btn">회사소개</button>
+          <button class="hero-btn outline">문의하기</button>
+        </div>
+      </div>
+      <div class="hero-graphic">
+        <svg viewBox="0 0 240 180" fill="none">
+          <defs>
+            <radialGradient id="mainGlow" cx="60%" cy="60%" r="80%">
+              <stop offset="0%" stop-color="#2fd7e6" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#6a82fb" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="netGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2fd7e6"/>
+              <stop offset="100%" stop-color="#6a82fb"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="120" cy="158" rx="90" ry="14" fill="url(#mainGlow)" opacity="0.6"/>
+          <circle cx="70" cy="80" r="35" stroke="url(#netGrad)" stroke-width="3.5" fill="none"/>
+          <circle cx="180" cy="60" r="25" stroke="#6a82fb" stroke-width="2.5" fill="none"/>
+          <circle cx="120" cy="110" r="50" stroke="#fff" stroke-width="1.5" opacity="0.5" fill="none"/>
+          <path d="M120 50 Q140 90 160 70" stroke="#2fd7e6" stroke-width="2.5" fill="none"/>
+          <path d="M90 100 Q115 130 160 80" stroke="#6a82fb" stroke-width="2" fill="none"/>
+          <circle cx="120" cy="110" r="8" fill="#2fd7e6" opacity="0.7"/>
+          <circle cx="70" cy="80" r="5" fill="#6a82fb" opacity="0.7"/>
+          <circle cx="180" cy="60" r="4" fill="#fff" opacity="0.7"/>
+          <g stroke="#2fd7e6" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.5">
+            <line x1="120" y1="110" x2="70" y2="80"/>
+            <line x1="120" y1="110" x2="180" y2="60"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="main-section">
+      <div class="main-card">
+        <div class="card-title">About Us</div>
+        <div class="card-desc">
+          인간 중심 AI 스토리, 미션/비전, 핵심 가치 등<br>
+          (회사 소개, 철학, 비전, 가치관 등 간략 설명)
+        </div>
+        <a href="#about" class="card-more">자세히보기</a>
+      </div>
+      <div class="main-card">
+        <div class="card-title">Our Solutions</div>
+        <div class="card-desc">
+          주요 AI 서비스/제품 소개, 실제 적용 사례, 데모 영상 등<br>
+          (서비스 목록, 특징, 데모 등)
+        </div>
+        <a href="#solutions" class="card-more">자세히보기</a>
+      </div>
+      <div class="main-card">
+        <div class="card-title">For Investors</div>
+        <div class="card-desc">
+          투자 포인트, 성장 전략, 시장 전망, 신뢰성 강조<br>
+          (투자자 대상 정보, 성장성, 비전 등)
+        </div>
+        <a href="#investors" class="card-more">자세히보기</a>
+      </div>
+      <div class="main-card">
+        <div class="card-title">For Clients</div>
+        <div class="card-desc">
+          고객 성공 사례, 맞춤형 솔루션 안내, 문의/상담<br>
+          (고객 사례, 상담 안내 등)
+        </div>
+        <a href="#clients" class="card-more">자세히보기</a>
+      </div>
+    </div>
+
+    <div class="section-title">오늘의 소식</div>
+    <div class="timeline">
+      <div class="timeline-list">
+        <div class="timeline-item">
+          <span class="timeline-date">2025.06.19</span>
+          <span>AI 컨퍼런스 참가 및 산업 파트너십 체결</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">2025.06.18</span>
+          <span>씽즈브레인, 차세대 AI 서비스 베타 오픈</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">2025.06.17</span>
+          <span>AI 윤리 가이드라인 발표</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">2025.06.16</span>
+          <span>기업 고객 대상 맞춤형 AI 솔루션 설명회</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 씽즈브레인 (Things Brain Inc). All rights reserved.
+  </footer>
+</body>
 </html>
