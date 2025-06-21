@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solutions - Things Brain Inc.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Rajdhani:wght@700&display=swap');
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rajdhani', 'Poppins', 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fa;
+      color: #222;
+      min-height: 100vh;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1.5px solid #e0e8ef;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px 0 rgba(47,215,230,0.05);
+    }
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0 16px 0;
+      position: relative;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      user-select: none;
+    }
+    .logo a {
+        text-decoration: none; /* 밑줄 제거 */
+        color: inherit; /* 부모 요소의 색상 상속 */
+        display: flex; /* 로고와 텍스트를 나란히 배치 */
+        align-items: center; /* 세로 중앙 정렬 */
+    }
+    .logo a:hover {
+        opacity: 0.8; /* 호버 시 투명도 효과 */
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+      user-select: none;
+    }
+    .logo-ko {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 2px #2fd7e6aa;
+    }
+    .logo-en {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.84rem;
+      color: #0c8ace;
+      font-style: italic;
+    }
+
+    /* 햄버거 메뉴 버튼 */
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: #222;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.is-active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .menu {
+      display: flex;
+      gap: 34px;
+    }
+    .menu a {
+      color: #222;
+      text-decoration: none;
+      font-size: 1.07rem;
+      font-weight: 500;
+      position: relative;
+      padding: 2px 0;
+      transition: color 0.18s;
+    }
+    .menu a:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+      transition: width .22s;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      border-radius: 2px;
+    }
+    .menu a:hover {
+      color: #2fd7e6;
+    }
+    .menu a:hover:after {
+      width: 100%;
+    }
+    .menu a.active {
+      color: #2fd7e6;
+    }
+    .menu a.active:after {
+      width: 100%;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 0 0 12px 12px;
+        padding: 20px 0;
+      }
+      .menu.open {
+        display: flex;
+      }
+      .menu a {
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .menu a:last-child {
+        border-bottom: none;
+      }
+      .logo-ko {
+        font-size: 1.2rem;
+      }
+      .logo-en {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Solutions Hero Section */
+    .solutions-hero {
+      background: linear-gradient(135deg, #e7f6fa 0%, #f7fbff 50%, #e7f6fa 100%);
+      padding: 80px 0 60px 0;
+      margin-bottom: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .solutions-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%232fd7e6" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 24px;
+      line-height: 1.2;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.4rem;
+      color: #444;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+    
+    .hero-desc {
+      font-size: 1.1rem;
+      color: #666;
+      line-height: 1.7;
+      font-family: 'Poppins', sans-serif;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Main Solution Section */
+    .main-solution {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 40px rgba(47,215,230,0.08);
+      margin-bottom: 80px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .solution-header {
+      background: linear-gradient(135deg, #2fd7e6 0%, #6a82fb 100%);
+      color: #fff;
+      padding: 50px 40px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .solution-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1.5" fill="white" opacity="0.15"/><circle cx="60" cy="80" r="1" fill="white" opacity="0.1"/><circle cx="30" cy="70" r="1.5" fill="white" opacity="0.12"/></svg>');
+    }
+    
+    .solution-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .solution-tagline {
+      font-size: 1.3rem;
+      opacity: 0.95;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .solution-content {
+      padding: 60px 40px;
+    }
+    
+    .solution-overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-bottom: 80px;
+    }
+    
+    .overview-text h3 {
+      font-size: 2rem;
+      color: #1c3e60;
+      margin-bottom: 24px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    
+    .overview-text p {
+      font-size: 1.1rem;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .overview-visual {
+      position: relative;
+      height: 300px;
+      background: linear-gradient(135deg, #f8fcff 0%, #e7f6fa 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .tech-diagram {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Video Section */
+    .video-section {
+      background: #f8fcff;
+      border-radius: 20px;
+      padding: 50px 40px;
+      margin: 60px 0;
+      text-align: center;
+    }
+    
+    .video-title {
+      font-size: 2.2rem;
+      color: #1c3e60;
+      margin-bottom: 16px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    
+    .video-desc {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 40px;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+    }
+    
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(47,215,230,0.15);
+      background: #000;
+      aspect-ratio: 16/9;
+    }
+    
+    .video-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2fd7e6 0%, #6a82fb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+    }
+    
+    .video-placeholder::before {
+      content: '▶';
+      font-size: 4rem;
+      opacity: 0.8;
+      position: absolute;
+    }
+
+    /* Features Grid */
+    .features-section {
+      margin: 80px 0;
+    }
+    
+    .section-title {
+      font-size: 2.4rem;
+      color: #1c3e60;
+      text-align: center;
+      margin-bottom: 60px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+    }
+    
+    .feature-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: 0 4px 24px rgba(47,215,230,0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 48px rgba(47,215,230,0.15);
+    }
+    
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #e7f6fa 0%, #f7fbff 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 1.8rem;
+    }
+    
+    .feature-title {
+      font-size: 1.4rem;
+      color: #1c3e60;
+      margin-bottom: 16px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .feature-desc {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.7;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Process Flow */
+    .process-section {
+      background: #f8fcff;
+      border-radius: 24px;
+      padding: 60px 40px;
+      margin: 80px 0;
+    }
+    
+    .process-title {
+      font-size: 2.4rem;
+      color: #1c3e60;
+      text-align: center;
+      margin-bottom: 60px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    
+    .process-flow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    
+    .process-step {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .process-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: #2fd7e6;
+      font-weight: bold;
+    }
+    
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #2fd7e6 0%, #6a82fb 100%);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 auto 20px auto;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    
+    .step-title {
+      font-size: 1.2rem;
+      color: #1c3e60;
+      margin-bottom: 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+    }
+    
+    .step-desc {
+      font-size: 0.95rem;
+      color: #666;
+      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, #2fd7e6 0%, #6a82fb 100%);
+      color: #fff;
+      border-radius: 24px;
+      padding: 60px 40px;
+      text-align: center;
+      margin: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="20" r="1.5" fill="white" opacity="0.08"/><circle cx="70" cy="90" r="1" fill="white" opacity="0.12"/><circle cx="20" cy="80" r="1.2" fill="white" opacity="0.1"/></svg>');
+    }
+    
+    .cta-title {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .cta-desc {
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      opacity: 0.95;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .cta-btn {
+      padding: 16px 40px;
+      border-radius: 32px;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .cta-btn.primary {
+      background: #fff;
+      color: #2fd7e6;
+      box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+    }
+    
+    .cta-btn.primary:hover {
+      background: #f8fcff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(255,255,255,0.3);
+    }
+    
+    .cta-btn.secondary {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+    
+    .cta-btn.secondary:hover {
+      background: #fff;
+      color: #2fd7e6;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: #222;
+      color: #ffffff;
+      text-align: center;
+      padding: 28px 0 16px 0;
+      margin-top: 60px;
+      font-size: 0.95rem;
+      letter-spacing: 0.1px;
+      border-top: 1.5px solid #2fd7e6;
+      font-family: 'Rajdhani', sans-serif;
+      opacity: 0.88;
+      letter-spacing: 2px;
+      font-weight: 200;
+      text-transform: uppercase;
+      word-spacing: 0.2em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .container {
+        width: 95%;
+      }
+      
+      .hero-title {
+        font-size: 2.4rem;
+      }
+      
+      .solution-overview {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .process-flow {
+        flex-direction: column;
+      }
+      
+      .process-step:not(:last-child)::after {
+        content: '↓';
+        right: 50%;
+        top: 100%;
+        transform: translateX(50%);
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .solution-content {
+        padding: 40px 20px;
+      }
+      
+      .video-section {
+        padding: 40px 20px;
+      }
+      
+      .process-section {
+        padding: 40px 20px;
+      }
+      
+      .cta-section {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <a href="index.html" aria-label="씽즈브레인 홈페이지로 이동">
+            <img src="./images/ci.png" width="100" height="100" alt="씽즈브레인 로고"/>
+            <div class="logo-text">
+              <span class="logo-ko">씽즈브레인</span>
+              <span class="logo-en">THINGS BRAIN Inc.</span>
+            </div>
+          </a>
+        </div>
+        
+        <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <div class="menu" role="navigation" aria-label="주요 메뉴">
+          <a href="./about.html">About</a>
+          <a href="./solutions.html" class="active">Solutions</a>
+          <a href="./investors.html">Investors</a>
+          <a href="./clients.html">Clients</a>
+          <a href="./contact.html">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="solutions-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">AI Solutions</h1>
+        <p class="hero-subtitle">인간과 AI의 완벽한 협업을 실현합니다</p>
+        <p class="hero-desc">
+          LLM과 MCP 서비스의 혁신적 결합으로 차세대 지능형 협업 플랫폼을 제공하며,<br>
+          인간의 창의성과 AI의 효율성이 조화를 이루는 새로운 업무 환경을 구축합니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <section class="main-solution">
+      <div class="solution-header">
+        <h2 class="solution-title">LLM-MCP Collaboration Platform</h2>
+        <p class="solution-tagline">Large Language Model과 Model Context Protocol의 시너지</p>
+      </div>
+      
+      <div class="solution-content">
+        <div class="solution-overview">
+          <div class="overview-text">
+            <h3>혁신적인 AI-Human 협업 솔루션</h3>
+            <p>
+              씽즈브레인의 핵심 솔루션은 최첨단 LLM(Large Language Model)과 MCP(Model Context Protocol) 서비스를 
+              완벽하게 통합하여 인간과 AI가 자연스럽게 협업할 수 있는 환경을 제공합니다.
+            </p>
+            <p>
+              듀얼브레인 이론을 바탕으로 설계된 이 플랫폼은 인간의 직관적 사고와 AI의 논리적 처리 능력을 
+              조화롭게 결합하여 최적의 의사결정과 창의적 문제해결을 지원합니다.
+            </p>
+            <p>
+              실시간 컨텍스트 공유, 지능형 작업 분배, 그리고 seamless한 협업 인터페이스를 통해 
+              업무 효율성을 극대화하고 새로운 가치를 창출합니다.
+            </p>
+          </div>
+          
+          <div class="overview-visual">
+            <svg class="tech-diagram" viewBox="0 0 400 300" fill="none">
+              <defs>
+                <linearGradient id="mainGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#2fd7e6"/>
+                  <stop offset="100%" stop-color="#6a82fb"/>
+                </linearGradient>
+                <radialGradient id="nodeGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#2fd7e6" stop-opacity="0.1"/>
+                </radialGradient>
+              </defs>
+              
+              <!-- Background Network -->
+              <g opacity="0.3">
+                <line x1="50" y1="80" x2="150" y2="60" stroke="#2fd7e6" stroke-width="1"/>
+                <line x1="150" y1="60" x2="250" y2="80" stroke="#6a82fb" stroke-width="1"/>
+                <line x1="250" y1="80" x2="350" y2="60" stroke="#2fd7e6" stroke-width="1"/>
+                <line x1="100" y1="150" x2="200" y2="130" stroke="#6a82fb" stroke-width="1"/>
+                <line x1="200" y1="130" x2="300" y2="150" stroke="#2fd7e6" stroke-width="1"/>
+                <line x1="150" y1="220" x2="250" y2="200" stroke="#6a82fb" stroke-width="1"/>
+              </g>
+              
+              <!-- Main Nodes -->
+              <circle cx="100" cy="80" r="25" fill="url(#nodeGrad)" stroke="url(#mainGrad)" stroke-width="3"/>
+              <text x="100" y="85" text-anchor="middle" fill="#1c3e60" font-size="12" font-weight="bold">LLM</text>
+              
+              <circle cx="300" cy="80" r="25" fill="url(#nodeGrad)" stroke="url(#mainGrad)" stroke-width="3"/>
+              <text x="300" y="85" text-anchor="middle" fill="#1c3e60" font-size="12" font-weight="bold">MCP</text>
+              
+              <circle cx="200" cy="150" r="30" fill="url(#nodeGrad)" stroke="url(#mainGrad)" stroke-width="4"/>
+              <text x="200" y="155" text-anchor="middle" fill="#1c3e60" font-size="14" font-weight="bold">협업</text>
+              
+              <circle cx="100" cy="220" r="20" fill="url(#nodeGrad)" stroke="#2fd7e6" stroke-width="2"/>
+              <text x="100" y="225" text-anchor="middle" fill="#1c3e60" font-size="10" font-weight="bold">Human</text>
+              
+              <circle cx="300" cy="220" r="20" fill="url(#nodeGrad)" stroke="#6a82fb" stroke-width="2"/>
+              <text x="300" y="225" text-anchor="middle" fill="#1c3e60" font-size="10" font-weight="bold">AI</text>
+              
+              <!-- Connection Lines -->
+              <path d="M 100 105 Q 150 125 200 120" stroke="url(#mainGrad)" stroke-width="3" fill="none"/>
+              <path d="M 300 105 Q 250 125 200 120" stroke="url(#mainGrad)" stroke-width="3" fill="none"/>
+              <path d="M 200 180 Q 150 200 100 200" stroke="#2fd7e6" stroke-width="2" fill="none"/>
+              <path d="M 200 180 Q 250 200 300 200" stroke="#6a82fb" stroke-width="2" fill="none"/>
+              
+              <!-- Data Flow Indicators -->
+              <g opacity="0.7">
+                <circle cx="130" cy="115" r="3" fill="#2fd7e6">
+                  <animate attributeName="cx" values="130;170;130" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="270" cy="115" r="3" fill="#6a82fb">
+                  <animate attributeName="cx" values="270;230;270" dur="3s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="video-section">
+      <h2 class="video-title">솔루션 데모 영상</h2>
+      <p class="video-desc">
+        LLM-MCP 협업 플랫폼의 실제 작동 방식과 핵심 기능들을 영상으로 확인해보세요.<br>
+        실시간 협업 시나리오와 AI-Human 인터랙션의 혁신적인 경험을 소개합니다.
+      </p>
+      <div class="video-container">
+        <div class="video-placeholder">
+          여기에 데모 영상을 삽입해주세요
+          <br><small>(MP4, YouTube 임베드, 또는 기타 비디오 형식)</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <h2 class="section-title">핵심 기능</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3 class="feature-title">지능형 컨텍스트 관리</h3>
+          <p class="feature-desc">
+            MCP를 통한 실시간 컨텍스트 공유로 AI와 인간이 동일한 정보 기반에서 
+            협업할 수 있는 환경을 제공합니다.
+          </p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3 class="feature-title">실시간 협업 인터페이스</h3>
+          <p class="feature-desc">
+            직관적인 UI/UX를 통해 인간과 AI가 자연스럽게 소통하고 
+            실시간으로 작업을 공유할 수 있습니다.
+          </p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">적응형 작업 분배</h3>
+          <p class="feature-desc">
+            각 작업의 특성을 분석하여 인간과 AI의 강점에 따라 
+            최적의 역할 분담을 자동으로 제안합니다.
+          </p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3 class="feature-title">지속적 학습 시스템</h3>
+          <p class="feature-desc">
+            협업 과정에서 발생하는 데이터를 학습하여 
+            시간이 지날수록 더욱 효율적인 협업을 지원합니다.
+          </p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3 class="feature-title">보안 및 프라이버시</h3>
+          <p class="feature-desc">
+            엔터프라이즈급 보안 시스템으로 민감한 데이터를 보호하며 
+            GDPR 및 개인정보보호법을 완벽히 준수합니다.
+          </p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">성과 분석 대시보드</h3>
+          <p class="feature-desc">
+            협업 효율성, 작업 품질, 시간 절약 등 다양한 지표를 
+            실시간으로 모니터링하고 분석할 수 있습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="process-section">
+      <h2 class="process-title">협업 프로세스</h2>
+      <div class="process-flow">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h3 class="step-title">작업 분석</h3>
+          <p class="step-desc">
+            입력된 작업을 AI가 분석하여 
+            최적의 협업 전략을 수립합니다
+          </p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h3 class="step-title">역할 분담</h3>
+          <p class="step-desc">
+            인간과 AI의 강점을 고려하여 
+            효율적인 역할 분담을 제안합니다
+          </p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h3 class="step-title">실시간 협업</h3>
+          <p class="step-desc">
+            MCP를 통한 컨텍스트 공유로 
+            seamless한 협업을 진행합니다
+          </p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h3 class="step-title">결과 최적화</h3>
+          <p class="step-desc">
+            협업 결과를 검토하고 
+            지속적인 개선을 수행합니다
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2 class="cta-title">AI 협업의 미래를 경험해보세요</h2>
+      <p class="cta-desc">
+        씽즈브레인의 LLM-MCP 협업 플랫폼으로 업무 효율성을 혁신하고<br>
+        인간과 AI가 함께 만드는 새로운 가능성을 발견하세요.
+      </p>
+      <div class="cta-buttons">
+        <a href="#contact" class="cta-btn primary">무료 데모 신청</a>
+        <a href="#contact" class="cta-btn secondary">상담 문의</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 씽즈브레인 (Things Brain Inc.) All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger');
+      const menu = document.querySelector('.menu');
+
+      hamburger.addEventListener('click', function() {
+        menu.classList.toggle('open');
+        hamburger.classList.toggle('is-active');
+        
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !expanded);
+        hamburger.setAttribute('aria-label', expanded ? '메뉴 열기' : '메뉴 닫기');
+      });
+
+      const menuLinks = document.querySelectorAll('.menu a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        }
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

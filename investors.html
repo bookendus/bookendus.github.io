@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Investors - Things Brain Inc.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Rajdhani:wght@700&display=swap');
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rajdhani', 'Poppins', 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fa;
+      color: #222;
+      min-height: 100vh;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1.5px solid #e0e8ef;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px 0 rgba(47,215,230,0.05);
+    }
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0 16px 0;
+      position: relative;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      user-select: none;
+    }
+    .logo a {
+        text-decoration: none; /* 밑줄 제거 */
+        color: inherit; /* 부모 요소의 색상 상속 */
+        display: flex; /* 로고와 텍스트를 나란히 배치 */
+        align-items: center; /* 세로 중앙 정렬 */
+    }
+    .logo a:hover {
+        opacity: 0.8; /* 호버 시 투명도 효과 */
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+      user-select: none;
+    }
+    .logo-ko {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 2px #2fd7e6aa;
+    }
+    .logo-en {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.84rem;
+      color: #0c8ace;
+      font-style: italic;
+    }
+
+    /* 햄버거 메뉴 버튼 */
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: #222;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.is-active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .menu {
+      display: flex;
+      gap: 34px;
+    }
+    .menu a {
+      color: #222;
+      text-decoration: none;
+      font-size: 1.07rem;
+      font-weight: 500;
+      position: relative;
+      padding: 2px 0;
+      transition: color 0.18s;
+    }
+    .menu a:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+      transition: width .22s;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      border-radius: 2px;
+    }
+    .menu a:hover {
+      color: #2fd7e6;
+    }
+    .menu a:hover:after {
+      width: 100%;
+    }
+    .menu a.active {
+      color: #2fd7e6;
+    }
+    .menu a.active:after {
+      width: 100%;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 0 0 12px 12px;
+        padding: 20px 0;
+      }
+      .menu.open {
+        display: flex;
+      }
+      .menu a {
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .menu a:last-child {
+        border-bottom: none;
+      }
+      .logo-ko {
+        font-size: 1.2rem;
+      }
+      .logo-en {
+        font-size: 0.75rem;
+      }
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1c3e60 0%, #2fd7e6 100%);
+      border-radius: 0 0 32px 32px;
+      padding: 56px 0 36px 0;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 32px 0 rgba(47,215,230,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 18px;
+      line-height: 1.15;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .hero-desc {
+      font-size: 1.3rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 26px;
+      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .investment-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin: 48px 0;
+    }
+    .highlight-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px 0 rgba(47,215,230,0.08);
+      padding: 32px 24px;
+      text-align: center;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .highlight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px 0 rgba(47,215,230,0.15);
+    }
+    .highlight-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #2fd7e6 0%, #6a82fb 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+    .highlight-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 12px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.8px;
+    }
+    .highlight-desc {
+      color: #444;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+    }
+    .highlight-metric {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #2fd7e6;
+      margin: 16px 0 8px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin: 64px 0 32px 0;
+      text-align: center;
+      letter-spacing: 1.2px;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+    }
+
+    .strategy-section {
+      background: #fff;
+      border-radius: 24px;
+      padding: 48px 32px;
+      margin: 32px 0;
+      box-shadow: 0 4px 24px 0 rgba(47,215,230,0.08);
+    }
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 32px;
+    }
+    .strategy-item {
+      padding: 24px;
+      border-left: 4px solid #2fd7e6;
+      background: #f7fbff;
+      border-radius: 12px;
+    }
+    .strategy-item h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 12px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .strategy-item p {
+      color: #444;
+      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .market-outlook {
+      background: linear-gradient(135deg, #f7fbff 0%, #e7f6fa 100%);
+      border-radius: 24px;
+      padding: 48px 32px;
+      margin: 32px 0;
+    }
+    .market-chart {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .chart-item {
+      text-align: center;
+      padding: 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(47,215,230,0.05);
+    }
+    .chart-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #2fd7e6;
+      margin-bottom: 8px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .chart-label {
+      font-size: 1rem;
+      color: #666;
+      font-family: 'Poppins', sans-serif;
+    }
+    .chart-trend {
+      font-size: 0.9rem;
+      color: #27ae60;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .trust-factors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin: 48px 0;
+    }
+    .trust-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 16px rgba(47,215,230,0.06);
+      border-top: 3px solid #2fd7e6;
+    }
+    .trust-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 12px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .trust-card p {
+      color: #444;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, #1c3e60 0%, #2fd7e6 100%);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      margin: 48px 0;
+      color: #fff;
+    }
+    .cta-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .cta-desc {
+      font-size: 1.1rem;
+      margin-bottom: 32px;
+      opacity: 0.9;
+      font-family: 'Poppins', sans-serif;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 40px;
+      background: #fff;
+      color: #1c3e60;
+      text-decoration: none;
+      border-radius: 32px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.18s;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 0.5px;
+    }
+    .cta-btn:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    footer {
+      background: #222;
+      color: #ffffff;
+      text-align: center;
+      padding: 28px 0 16px 0;
+      margin-top: 60px;
+      font-size: 0.95rem;
+      letter-spacing: 0.1px;
+      border-top: 1.5px solid #2fd7e6;
+      font-family: 'Rajdhani', sans-serif;
+      opacity: 0.88;
+      letter-spacing: 2px;
+      font-weight: 200;
+      text-transform: uppercase;
+      word-spacing: 0.2em;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        width: 98%;
+      }
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .hero-desc {
+        font-size: 1.1rem;
+      }
+      .strategy-section,
+      .market-outlook,
+      .cta-section {
+        padding: 32px 20px;
+      }
+    }
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      .section-title {
+        font-size: 1.6rem;
+      }
+      .highlight-metric,
+      .chart-value {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <a href="index.html" aria-label="씽즈브레인 홈페이지로 이동">
+            <img src="./images/ci.png" width="100" height="100" alt="씽즈브레인 로고"/>
+            <div class="logo-text">
+              <span class="logo-ko">씽즈브레인</span>
+              <span class="logo-en">THINGS BRAIN Inc.</span>
+            </div>
+          </a>
+        </div>
+        
+        <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <div class="menu" role="navigation" aria-label="주요 메뉴">
+          <a href="./about.html">About</a>
+          <a href="./solutions.html">Solutions</a>
+          <a href="./investors.html" class="active">Investors</a>
+          <a href="./clients.html">Clients</a>
+          <a href="./contact.html">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-content">
+      <h1 class="hero-title">Investment Opportunity</h1>
+      <p class="hero-desc">
+        듀얼브레인 AI 혁신으로 미래를 선도하는<br>
+        글로벌 AI 기업으로의 성장 여정에 함께하세요
+      </p>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- 투자 하이라이트 -->
+    <div class="investment-highlights">
+      <div class="highlight-card">
+        <div class="highlight-icon">🚀</div>
+        <div class="highlight-title">시장 선도 기술</div>
+        <div class="highlight-desc">듀얼브레인 이론 기반의 차별화된 AI 기술로 시장을 선도</div>
+        <div class="highlight-metric">95%</div>
+        <div class="chart-label">기술 혁신도</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">📈</div>
+        <div class="highlight-title">급속한 성장</div>
+        <div class="highlight-desc">전년 대비 매출 성장률과 시장 점유율 확대</div>
+        <div class="highlight-metric">340%</div>
+        <div class="chart-label">YoY 성장률</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🌍</div>
+        <div class="highlight-title">글로벌 확장</div>
+        <div class="highlight-desc">아시아를 넘어 북미, 유럽 시장 진출 계획</div>
+        <div class="highlight-metric">15+</div>
+        <div class="chart-label">타겟 국가</div>
+      </div>
+    </div>
+
+    <!-- 성장 전략 -->
+    <h2 class="section-title">Growth Strategy</h2>
+    <div class="strategy-section">
+      <p style="text-align: center; font-size: 1.1rem; color: #666; margin-bottom: 0; font-family: 'Poppins', sans-serif;">
+        세계 최고 수준의 전략 컨설팅 방법론을 적용한 체계적 성장 전략
+      </p>
+      <div class="strategy-grid">
+        <div class="strategy-item">
+          <h3>기술 혁신 가속화</h3>
+          <p>듀얼브레인 AI 기술의 지속적 R&D 투자를 통해 기술적 우위를 확보하고, 특허 포트폴리오를 강화하여 경쟁 장벽을 구축합니다[2][3].</p>
+        </div>
+        <div class="strategy-item">
+          <h3>시장 확장 전략</h3>
+          <p>국내 시장 선점 후 아시아 태평양, 북미, 유럽 순차 진출을 통해 글로벌 AI 시장에서의 입지를 확고히 합니다[3].</p>
+        </div>
+        <div class="strategy-item">
+          <h3>전략적 파트너십</h3>
+          <p>주요 기업들과의 전략적 제휴를 통해 시장 접근성을 높이고, 생태계 구축을 가속화합니다[2].</p>
+        </div>
+        <div class="strategy-item">
+          <h3>인재 확보</h3>
+          <p>세계 최고 수준의 AI 전문가들을 영입하여 기술 경쟁력을 강화하고 조직 역량을 확대합니다[3].</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 시장 전망 -->
+    <h2 class="section-title">Market Outlook</h2>
+    <div class="market-outlook">
+      <p style="text-align: center; font-size: 1.1rem; color: #444; margin-bottom: 0; font-family: 'Poppins', sans-serif;">
+        AI 시장의 폭발적 성장과 씽즈브레인의 시장 기회
+      </p>
+      <div class="market-chart">
+        <div class="chart-item">
+          <div class="chart-value">$1.8T</div>
+          <div class="chart-label">2030년 글로벌 AI 시장 규모</div>
+          <div class="chart-trend">↗ +42% CAGR</div>
+        </div>
+        <div class="chart-item">
+          <div class="chart-value">$180B</div>
+          <div class="chart-label">아시아 AI 시장 규모</div>
+          <div class="chart-trend">↗ +38% CAGR</div>
+        </div>
+        <div class="chart-item">
+          <div class="chart-value">85%</div>
+          <div class="chart-label">기업 AI 도입률 (2030)</div>
+          <div class="chart-trend">↗ 현재 35%</div>
+        </div>
+        <div class="chart-item">
+          <div class="chart-value">12%</div>
+          <div class="chart-label">예상 시장 점유율</div>
+          <div class="chart-trend">↗ 5년 내 목표</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 신뢰 요소 -->
+    <h2 class="section-title">Why Trust Things Brain</h2>
+    <div class="trust-factors">
+      <div class="trust-card">
+        <h3>투명한 경영</h3>
+        <p>모든 재무 정보와 사업 현황을 투명하게 공개하며, 정기적인 투자자 소통을 통해 신뢰를 구축합니다[4].</p>
+      </div>
+      <div class="trust-card">
+        <h3>검증된 팀</h3>
+        <p>글로벌 AI 기업 출신의 검증된 경영진과 세계 최고 수준의 기술진으로 구성된 전문가 팀입니다[4].</p>
+      </div>
+      <div class="trust-card">
+        <h3>실행력</h3>
+        <p>약속한 목표를 지속적으로 달성해온 트랙레코드와 체계적인 실행 프로세스를 보유하고 있습니다[4].</p>
+      </div>
+      <div class="trust-card">
+        <h3>리스크 관리</h3>
+        <p>포괄적인 리스크 분석과 대응 전략을 수립하여 안정적인 성장을 추구합니다[4].</p>
+      </div>
+      <div class="trust-card">
+        <h3>ESG 경영</h3>
+        <p>지속가능한 AI 개발과 윤리적 기업 운영을 통해 사회적 가치를 창출합니다.</p>
+      </div>
+      <div class="trust-card">
+        <h3>고객 성공</h3>
+        <p>고객의 성공이 곧 우리의 성공이라는 철학으로 장기적 파트너십을 구축합니다[4].</p>
+      </div>
+    </div>
+
+    <!-- CTA 섹션 -->
+    <div class="cta-section">
+      <h2 class="cta-title">Join Our Growth Journey</h2>
+      <p class="cta-desc">
+        씽즈브레인과 함께 AI 혁신의 미래를 만들어가세요.<br>
+        투자 상담 및 자세한 정보는 언제든 문의해 주시기 바랍니다.
+      </p>
+      <a href="./contact.html" class="cta-btn">투자 문의하기</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 씽즈브레인 (Things Brain Inc.) All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger');
+      const menu = document.querySelector('.menu');
+
+      hamburger.addEventListener('click', function() {
+        menu.classList.toggle('open');
+        hamburger.classList.toggle('is-active');
+        
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !expanded);
+        hamburger.setAttribute('aria-label', expanded ? '메뉴 열기' : '메뉴 닫기');
+      });
+
+      const menuLinks = document.querySelectorAll('.menu a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        }
+      });
+
+      // 숫자 애니메이션 효과
+      const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px 0px -100px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const metrics = entry.target.querySelectorAll('.highlight-metric, .chart-value');
+            metrics.forEach(metric => {
+              if (!metric.classList.contains('animated')) {
+                animateNumber(metric);
+                metric.classList.add('animated');
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.investment-highlights, .market-chart').forEach(section => {
+        observer.observe(section);
+      });
+
+      function animateNumber(element) {
+        const text = element.textContent;
+        const number = parseInt(text.replace(/[^\d]/g, ''));
+        const suffix = text.replace(/[\d]/g, '');
+        
+        if (number) {
+          let current = 0;
+          const increment = number / 30;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= number) {
+              current = number;
+              clearInterval(timer);
+            }
+            element.textContent = Math.floor(current) + suffix;
+          }, 50);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - Things Brain Inc.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Rajdhani:wght@700&display=swap');
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rajdhani', 'Poppins', 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fa;
+      color: #222;
+      min-height: 100vh;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1.5px solid #e0e8ef;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px 0 rgba(47,215,230,0.05);
+    }
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0 16px 0;
+      position: relative;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      user-select: none;
+    }
+    .logo a {
+        text-decoration: none; /* 밑줄 제거 */
+        color: inherit; /* 부모 요소의 색상 상속 */
+        display: flex; /* 로고와 텍스트를 나란히 배치 */
+        align-items: center; /* 세로 중앙 정렬 */
+    }
+    .logo a:hover {
+        opacity: 0.8; /* 호버 시 투명도 효과 */
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+      user-select: none;
+    }
+    .logo-ko {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 2px #2fd7e6aa;
+    }
+    .logo-en {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.84rem;
+      color: #0c8ace;
+      font-style: italic;
+    }
+
+    /* 햄버거 메뉴 버튼 */
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: #222;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.is-active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .menu {
+      display: flex;
+      gap: 34px;
+    }
+    .menu a {
+      color: #222;
+      text-decoration: none;
+      font-size: 1.07rem;
+      font-weight: 500;
+      position: relative;
+      padding: 2px 0;
+      transition: color 0.18s;
+    }
+    .menu a:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+      transition: width .22s;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      border-radius: 2px;
+    }
+    .menu a:hover {
+      color: #2fd7e6;
+    }
+    .menu a:hover:after {
+      width: 100%;
+    }
+    .menu a.active {
+      color: #2fd7e6;
+    }
+    .menu a.active:after {
+      width: 100%;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 0 0 12px 12px;
+        padding: 20px 0;
+      }
+      .menu.open {
+        display: flex;
+      }
+      .menu a {
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .menu a:last-child {
+        border-bottom: none;
+      }
+      .logo-ko {
+        font-size: 1.2rem;
+      }
+      .logo-en {
+        font-size: 0.75rem;
+      }
+    }
+
+    .hero {
+      background: linear-gradient(90deg, #e7f6fa 0%, #f7fbff 100%);
+      border-radius: 0 0 32px 32px;
+      padding: 56px 0 36px 0;
+      margin-bottom: 48px;
+      box-shadow: 0 10px 32px 0 rgba(47,215,230,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-title {
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 18px;
+      line-height: 1.15;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .hero-subtitle {
+      font-size: 1.22rem;
+      color: #444;
+      margin-bottom: 26px;
+      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .section {
+      margin-bottom: 64px;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 32px;
+      text-align: center;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .section-content {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 18px 0 rgba(47,215,230,0.07);
+      padding: 48px 36px;
+      margin-bottom: 32px;
+      transition: box-shadow 0.18s;
+    }
+    .section-content:hover {
+      box-shadow: 0 8px 32px 0 rgba(47,215,230,0.13);
+    }
+
+    .dual-brain-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .brain-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 18px 0 rgba(47,215,230,0.07);
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .brain-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px 0 rgba(47,215,230,0.15);
+    }
+    .brain-card.system1 {
+      border-top: 4px solid #ff6b6b;
+    }
+    .brain-card.system2 {
+      border-top: 4px solid #4ecdc4;
+    }
+    .brain-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+    .brain-card.system1 .brain-icon {
+      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    }
+    .brain-card.system2 .brain-icon {
+      background: linear-gradient(135deg, #4ecdc4, #7dd3d8);
+    }
+    .brain-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .brain-card.system1 .brain-title {
+      color: #ff6b6b;
+    }
+    .brain-card.system2 .brain-title {
+      color: #4ecdc4;
+    }
+    .brain-desc {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #555;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .value-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 2px 12px 0 rgba(47,215,230,0.05);
+      transition: all 0.3s ease;
+    }
+    .value-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px 0 rgba(47,215,230,0.12);
+    }
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2fd7e6, #6a82fb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+    .value-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #2fd7e6;
+      margin-bottom: 12px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .value-desc {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #666;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .philosophy-text {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: #444;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      font-family: 'Poppins', sans-serif;
+    }
+    .philosophy-highlight {
+      color: #2fd7e6;
+      font-weight: 600;
+    }
+
+    footer {
+      background: #222;
+      color: #ffffff;
+      text-align: center;
+      padding: 28px 0 16px 0;
+      margin-top: 60px;
+      font-size: 0.95rem;
+      letter-spacing: 0.1px;
+      border-top: 1.5px solid #2fd7e6;
+      font-family: 'Rajdhani', sans-serif;
+      opacity: 0.88;
+      letter-spacing: 2px;
+      font-weight: 200;
+      text-transform: uppercase;
+      word-spacing: 0.2em;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        width: 98%;
+      }
+      .dual-brain-section {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      .section-content {
+        padding: 32px 24px;
+      }
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+        <a href="index.html" aria-label="씽즈브레인 홈페이지로 이동">
+            <img src="./images/ci.png" width="100" height="100" alt="씽즈브레인 로고"/>
+            <div class="logo-text">
+            <span class="logo-ko">씽즈브레인</span>
+            <span class="logo-en">THINGS BRAIN Inc.</span>
+            </div>
+        </a>
+        </div>
+        
+        <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <div class="menu" role="navigation" aria-label="주요 메뉴">
+          <a href="./about.html"  class="active">About</a>
+          <a href="./solutions.html">Solutions</a>
+          <a href="./investors.html">Investors</a>
+          <a href="./clients.html">Clients</a>
+          <a href="./contact.html">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-content">
+      <h1 class="hero-title">About Things Brain</h1>
+      <p class="hero-subtitle">
+        듀얼브레인 이론을 바탕으로 한 인간 중심 AI 혁신<br>
+        빠른 직감과 신중한 사고의 조화로 미래를 설계합니다
+      </p>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- 듀얼브레인 이론 섹션 -->
+    <section class="section">
+      <h2 class="section-title">Dual Brain Theory</h2>
+      <div class="dual-brain-section">
+        <div class="brain-card system1">
+          <div class="brain-icon">⚡</div>
+          <h3 class="brain-title">System 1 Thinking</h3>
+          <p class="brain-desc">
+            빠르고 직관적인 사고 시스템. 즉각적인 판단과 패턴 인식을 통해 
+            신속한 의사결정을 지원하는 AI 시스템을 개발합니다.
+            감정과 경험을 바탕으로 한 자연스러운 인터랙션을 구현합니다.
+          </p>
+        </div>
+        <div class="brain-card system2">
+          <div class="brain-icon">🧠</div>
+          <h3 class="brain-title">System 2 Thinking</h3>
+          <p class="brain-desc">
+            신중하고 논리적인 사고 시스템. 복잡한 문제 해결과 분석적 사고를 
+            통해 정확하고 합리적인 결과를 도출하는 AI를 구축합니다.
+            데이터 기반의 체계적인 추론과 검증을 수행합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 회사 철학 섹션 -->
+    <section class="section">
+      <h2 class="section-title">Our Philosophy</h2>
+      <div class="section-content">
+        <p class="philosophy-text">
+          인간의 뇌는 <span class="philosophy-highlight">빠른 직감(System 1)</span>과 
+          <span class="philosophy-highlight">신중한 사고(System 2)</span>라는 
+          두 가지 사고 시스템으로 작동합니다. 씽즈브레인은 이 듀얼브레인 이론을 AI에 적용하여, 
+          인간과 같은 자연스러운 사고 과정을 구현합니다.
+          <br><br>
+          우리는 AI가 단순히 빠르기만 하거나 정확하기만 한 것이 아니라, 
+          <span class="philosophy-highlight">상황에 맞는 적절한 사고 방식</span>을 선택할 수 있어야 한다고 믿습니다. 
+          긴급한 상황에서는 직관적으로, 복잡한 문제에서는 분석적으로 접근하는 
+          <span class="philosophy-highlight">균형 잡힌 AI</span>를 만들어갑니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 비전 섹션 -->
+    <section class="section">
+      <h2 class="section-title">Our Vision</h2>
+      <div class="section-content">
+        <p class="philosophy-text">
+          <span class="philosophy-highlight">"인간의 사고를 이해하고 보완하는 AI"</span>
+          <br><br>
+          우리는 인간을 대체하는 AI가 아닌, 인간의 사고 과정을 깊이 이해하고 
+          부족한 부분을 보완해주는 AI를 만들고자 합니다. 
+          듀얼브레인 이론을 통해 인간과 AI가 서로의 강점을 살려 
+          <span class="philosophy-highlight">협력하는 미래</span>를 그려나갑니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 핵심 가치 섹션 -->
+    <section class="section">
+      <h2 class="section-title">Core Values</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <h3 class="value-title">Human-Centric</h3>
+          <p class="value-desc">
+            인간 중심의 AI 개발을 통해 
+            기술이 사람을 위해 존재한다는 
+            기본 철학을 지킵니다.
+          </p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">⚖️</div>
+          <h3 class="value-title">Balance</h3>
+          <p class="value-desc">
+            직관과 논리, 속도와 정확성의 
+            균형을 통해 최적의 AI 솔루션을 
+            제공합니다.
+          </p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🔬</div>
+          <h3 class="value-title">Innovation</h3>
+          <p class="value-desc">
+            듀얼브레인 이론을 바탕으로 한 
+            혁신적인 AI 기술 개발에 
+            지속적으로 도전합니다.
+          </p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🛡️</div>
+          <h3 class="value-title">Trust</h3>
+          <p class="value-desc">
+            투명하고 신뢰할 수 있는 AI를 
+            통해 사용자와 사회의 신뢰를 
+            구축합니다.
+          </p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌱</div>
+          <h3 class="value-title">Growth</h3>
+          <p class="value-desc">
+            지속적인 학습과 발전을 통해 
+            인간과 AI가 함께 성장하는 
+            생태계를 만듭니다.
+          </p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🎯</div>
+          <h3 class="value-title">Purpose</h3>
+          <p class="value-desc">
+            명확한 목적 의식을 가지고 
+            사회에 긍정적인 영향을 미치는 
+            AI를 개발합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 씽즈브레인 (Things Brain Inc.) All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger');
+      const menu = document.querySelector('.menu');
+
+      hamburger.addEventListener('click', function() {
+        menu.classList.toggle('open');
+        hamburger.classList.toggle('is-active');
+        
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !expanded);
+        hamburger.setAttribute('aria-label', expanded ? '메뉴 열기' : '메뉴 닫기');
+      });
+
+      // 메뉴 항목 클릭 시 모바일 메뉴 닫기
+      const menuLinks = document.querySelectorAll('.menu a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        });
+      });
+
+      // 화면 크기 변경 시 메뉴 상태 초기화
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

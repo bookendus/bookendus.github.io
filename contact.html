@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact - Things Brain Inc.</title>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" 
+          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  </script>
+  <!-- Google reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Rajdhani:wght@700&display=swap');
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rajdhani', 'Poppins', 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fa;
+      color: #222;
+      min-height: 100vh;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1.5px solid #e0e8ef;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px 0 rgba(47,215,230,0.05);
+    }
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0 16px 0;
+      position: relative;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      user-select: none;
+    }
+    .logo a {
+        text-decoration: none; /* 밑줄 제거 */
+        color: inherit; /* 부모 요소의 색상 상속 */
+        display: flex; /* 로고와 텍스트를 나란히 배치 */
+        align-items: center; /* 세로 중앙 정렬 */
+    }
+    .logo a:hover {
+        opacity: 0.8; /* 호버 시 투명도 효과 */
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+      user-select: none;
+    }
+    .logo-ko {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 2px #2fd7e6aa;
+    }
+    .logo-en {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.84rem;
+      color: #0c8ace;
+      font-style: italic;
+    }
+
+    /* 햄버거 메뉴 버튼 */
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: #222;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.is-active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .menu {
+      display: flex;
+      gap: 34px;
+    }
+    .menu a {
+      color: #222;
+      text-decoration: none;
+      font-size: 1.07rem;
+      font-weight: 500;
+      position: relative;
+      padding: 2px 0;
+      transition: color 0.18s;
+    }
+    .menu a:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+      transition: width .22s;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      border-radius: 2px;
+    }
+    .menu a:hover {
+      color: #2fd7e6;
+    }
+    .menu a:hover:after {
+      width: 100%;
+    }
+    .menu a.active {
+      color: #2fd7e6;
+    }
+    .menu a.active:after {
+      width: 100%;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 0 0 12px 12px;
+        padding: 20px 0;
+      }
+      .menu.open {
+        display: flex;
+      }
+      .menu a {
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .menu a:last-child {
+        border-bottom: none;
+      }
+      .logo-ko {
+        font-size: 1.2rem;
+      }
+      .logo-en {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Contact Page Styles */
+    .page-header {
+      background: linear-gradient(90deg, #e7f6fa 0%, #f7fbff 100%);
+      border-radius: 0 0 32px 32px;
+      padding: 56px 0 36px 0;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 32px 0 rgba(47,215,230,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-title {
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 18px;
+      line-height: 1.15;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .page-desc {
+      font-size: 1.22rem;
+      color: #444;
+      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-container {
+      display: flex;
+      gap: 48px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+    .contact-info {
+      flex: 1;
+      min-width: 300px;
+    }
+    .contact-form-wrapper {
+      flex: 2;
+      min-width: 400px;
+    }
+
+    .info-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 18px 0 rgba(47,215,230,0.07);
+      padding: 36px 28px 32px 28px;
+      margin-bottom: 24px;
+      transition: box-shadow 0.18s;
+    }
+    .info-card:hover {
+      box-shadow: 0 8px 32px 0 rgba(47,215,230,0.13);
+    }
+    .info-title {
+      font-size: 1.23rem;
+      font-weight: 700;
+      color: #2fd7e6;
+      margin-bottom: 16px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-family: 'Poppins', sans-serif;
+      color: #444;
+    }
+    .info-icon {
+      width: 20px;
+      height: 20px;
+      color: #6a82fb;
+    }
+
+    .contact-form {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 18px 0 rgba(47,215,230,0.07);
+      padding: 36px 28px 32px 28px;
+      transition: box-shadow 0.18s;
+    }
+    .contact-form:hover {
+      box-shadow: 0 8px 32px 0 rgba(47,215,230,0.13);
+    }
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1c3e60;
+      margin-bottom: 24px;
+      letter-spacing: 1.2px;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e0e8ef;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      box-sizing: border-box;
+      background: #fafbfc;
+    }
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #2fd7e6;
+      box-shadow: 0 0 0 3px rgba(47,215,230,0.1);
+      background: #fff;
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .recaptcha-wrapper {
+      margin: 24px 0;
+      display: flex;
+      justify-content: center;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 32px;
+      border: none;
+      background: linear-gradient(90deg, #2fd7e6 0%, #6a82fb 100%);
+      color: #fff;
+      font-size: 1.16rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 16px rgba(47,215,230,0.16);
+      transition: background 0.18s, box-shadow 0.18s;
+      letter-spacing: 0.7px;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: linear-gradient(90deg, #1fc5d4 0%, #5a72e9 100%);
+      box-shadow: 0 4px 24px rgba(47,215,230,0.24);
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .status-message {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      display: none;
+    }
+    .status-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    footer {
+      background: #222;
+      color: #ffffff;
+      text-align: center;
+      padding: 28px 0 16px 0;
+      margin-top: 60px;
+      font-size: 0.95rem;
+      letter-spacing: 0.1px;
+      border-top: 1.5px solid #2fd7e6;
+      font-family: 'Rajdhani', sans-serif;
+      opacity: 0.88;
+      letter-spacing: 2px;
+      font-weight: 200;
+      text-transform: uppercase;
+      word-spacing: 0.2em;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        width: 98%;
+      }
+      .contact-container {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .contact-form-wrapper {
+        min-width: auto;
+      }
+      .page-title {
+        font-size: 2.2rem;
+      }
+      .page-desc {
+        font-size: 1.1rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 1.8rem;
+      }
+      .contact-form, .info-card {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <a href="index.html" aria-label="씽즈브레인 홈페이지로 이동">
+            <img src="./images/ci.png" width="100" height="100" alt="씽즈브레인 로고"/>
+            <div class="logo-text">
+              <span class="logo-ko">씽즈브레인</span>
+              <span class="logo-en">THINGS BRAIN Inc.</span>
+            </div>
+          </a>
+        </div>
+        
+        <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <div class="menu" role="navigation" aria-label="주요 메뉴">
+          <a href="./about.html">About</a>
+          <a href="./solutions.html">Solutions</a>
+          <a href="./investors.html">Investors</a>
+          <a href="./clients.html">Clients</a>
+          <a href="./contact.html" class="active">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">Contact Us</h1>
+      <p class="page-desc">
+        씽즈브레인과 함께 인공지능의 미래를 만들어가세요.<br>
+        언제든지 문의해 주시면 신속하게 답변드리겠습니다.
+      </p>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="contact-container">
+      <div class="contact-info">
+        <div class="info-card">
+          <div class="info-title">연락처 정보</div>
+          <div class="info-item">
+            <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+            <span>help@thingsbrain.com</span>
+          </div>
+          <!-- <div class="info-item">
+            <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            <span>서울특별시 강남구 테헤란로 123</span>
+          </div>
+          <div class="info-item">
+            <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+            </svg>
+            <span>02-1234-5678</span>
+          </div> -->
+        </div>
+
+        <div class="info-card">
+          <div class="info-title">운영 시간</div>
+          <div class="info-item">
+            <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <div>평일: 09:00 - 18:00</div>
+              <div style="margin-top: 4px; font-size: 0.9rem; color: #666;">주말 및 공휴일 휴무</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrapper">
+        <form id="contact-form" class="contact-form">
+          <div class="form-title">문의하기</div>
+          
+          <div class="form-group">
+            <label for="user_name" class="form-label">이름 *</label>
+            <input type="text" id="user_name" name="user_name" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="user_email" class="form-label">이메일 *</label>
+            <input type="email" id="user_email" name="user_email" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="company" class="form-label">회사명</label>
+            <input type="text" id="company" name="company" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label for="subject" class="form-label">제목 *</label>
+            <input type="text" id="subject" name="subject" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="message" class="form-label">메시지 *</label>
+            <textarea id="message" name="message" class="form-textarea" required placeholder="문의 내용을 자세히 작성해 주세요."></textarea>
+          </div>
+          
+          <div class="recaptcha-wrapper">
+            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+          </div>
+          
+          <button type="submit" class="submit-btn">메시지 전송</button>
+          
+          <div id="status-message" class="status-message"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 씽즈브레인 (Things Brain Inc.) All rights reserved.
+  </footer>
+
+  <script>
+    // EmailJS 초기화
+    (function() {
+      emailjs.init({
+        publicKey: '6LcRcmgrAAAAALTOJsaV-usGsxrxLsgVT_ZyaUs1'
+      });
+    })();
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // 햄버거 메뉴 기능
+      const hamburger = document.querySelector('.hamburger');
+      const menu = document.querySelector('.menu');
+
+      hamburger.addEventListener('click', function() {
+        menu.classList.toggle('open');
+        hamburger.classList.toggle('is-active');
+        
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !expanded);
+        hamburger.setAttribute('aria-label', expanded ? '메뉴 열기' : '메뉴 닫기');
+      });
+
+      // 메뉴 항목 클릭 시 모바일 메뉴 닫기
+      const menuLinks = document.querySelectorAll('.menu a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        });
+      });
+
+      // 화면 크기 변경 시 메뉴 상태 초기화
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        }
+      });
+
+      // 폼 제출 처리
+      document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // reCAPTCHA 응답 확인
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+          showMessage('reCAPTCHA를 완료해주세요.', 'error');
+          return;
+        }
+        
+        // 폼 데이터 수집
+        const formData = {
+          title: document.getElementById('subject').value.trim(),
+          name: document.getElementById('user_name').value.trim(),
+          company: document.getElementById('company').value.trim(),
+          email: document.getElementById('user_email').value.trim(),
+          time: new Date().toLocaleString('ko-KR'),
+          message: document.getElementById('message').value.trim(),
+          'g-recaptcha-response': recaptchaResponse
+        };
+        
+        // 버튼 비활성화
+        const submitButton = document.querySelector('.submit-btn');
+        submitButton.disabled = true;
+        submitButton.textContent = '전송 중...';
+        
+        // EmailJS로 이메일 전송
+        emailjs.send('service_5mnwh1f', 'template_i8m6mqo', formData)
+          .then(function(response) {
+            showMessage('메시지가 성공적으로 전송되었습니다! 빠른 시일 내에 답변드리겠습니다.', 'success');
+            document.getElementById('contact-form').reset();
+            grecaptcha.reset();
+          })
+          .catch(function(error) {
+            showMessage('메시지 전송에 실패했습니다. 잠시 후 다시 시도해주세요.', 'error');
+            console.error('EmailJS error:', error);
+          })
+          .finally(function() {
+            // 버튼 다시 활성화
+            submitButton.disabled = false;
+            submitButton.textContent = '메시지 전송';
+          });
+      });
+      
+      // 상태 메시지 표시 함수
+      function showMessage(message, type) {
+        const statusDiv = document.getElementById('status-message');
+        statusDiv.textContent = message;
+        statusDiv.className = `status-message status-${type}`;
+        statusDiv.style.display = 'block';
+        
+        // 자동으로 메시지 숨기기
+        setTimeout(() => {
+          statusDiv.style.display = 'none';
+        }, type === 'success' ? 8000 : 5000);
+      }
+      
+      // 전역으로 함수 노출
+      window.showMessage = showMessage;
+    });
+  </script>
+</body>
+</html>

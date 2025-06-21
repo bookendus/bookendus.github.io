@@ -32,6 +32,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 22px 0 16px 0;
+      position: relative;
     }
     .logo {
       display: flex;
@@ -39,11 +40,19 @@
       gap: 16px;
       user-select: none;
     }
+    .logo a {
+        text-decoration: none; /* 밑줄 제거 */
+        color: inherit; /* 부모 요소의 색상 상속 */
+        display: flex; /* 로고와 텍스트를 나란히 배치 */
+        align-items: center; /* 세로 중앙 정렬 */
+    }
+    .logo a:hover {
+        opacity: 0.8; /* 호버 시 투명도 효과 */
+    }
     .logo-svg {
       width: 44px;
       height: 44px;
       flex-shrink: 0;
-      /* 미니멀한 로고에 여백 */
       border-radius: 50%;
       background: linear-gradient(135deg, #e7f6fa 0%, #f7fbff 100%);
       display: flex;
@@ -69,13 +78,42 @@
     .logo-en {
       font-family: 'Segoe UI', sans-serif;
       font-size: 0.84rem;
-      /* font-weight: 400; */
       color: #0c8ace;
-      /* letter-spacing: 0.8px; */
-      /* margin-top: 2px; */
       font-style: italic;
-      /* text-shadow: 0 0 2px #6a82fbbb; */
     }
+
+    /* 햄버거 메뉴 버튼 */
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: #222;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.is-active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.is-active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
     .menu {
       display: flex;
       gap: 34px;
@@ -107,6 +145,54 @@
     .menu a:hover:after {
       width: 100%;
     }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 0 0 12px 12px;
+        padding: 20px 0;
+      }
+      .menu.open {
+        display: flex;
+      }
+      .menu a {
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .menu a:last-child {
+        border-bottom: none;
+      }
+      .logo-ko {
+        font-size: 1.2rem;
+      }
+      .logo-en {
+        font-size: 0.75rem;
+      }
+      .notice-bar {
+        padding: 10px 15px;
+        font-size: 13px;
+        }
+      .notice-text {
+    padding-right: 30px;
+        }
+        body.notice-active {
+        padding-top: 44px;
+        }
+    }
+
     .hero {
       background: linear-gradient(90deg, #e7f6fa 0%, #f7fbff 100%);
       border-radius: 0 0 32px 32px;
@@ -165,6 +251,8 @@
       letter-spacing: 0.7px;
       font-family: 'Poppins', sans-serif;
       text-transform: uppercase;
+      text-decoration: none;
+
     }
     .hero-btn.outline {
       background: transparent;
@@ -297,9 +385,7 @@
       opacity: 0.88;
       letter-spacing: 2px;
       font-weight: 200;
-      /* 있어보이는 spacing과 크기 */
       text-transform: uppercase;
-      /* 미니멀한 느낌 */
       word-spacing: 0.2em;
     }
     @media (max-width: 900px) {
@@ -314,29 +400,158 @@
         flex-direction: column;
         gap: 24px;
       }
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .hero-desc {
+        font-size: 1.1rem;
+      }
     }
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      .hero-btns {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .hero-btn {
+        text-align: center;
+      }
+      .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .timeline-date {
+        min-width: auto;
+      }
+    }
+
+    .notice-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+        color: white;
+        text-align: center;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 9999;
+        animation: slideDown 0.3s ease-out;
+        }
+
+        .notice-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        }
+
+        .notice-text {
+        flex: 1;
+        text-align: center;
+        }
+
+        .notice-close {
+        position: absolute;
+        right: 0;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+        }
+
+        .notice-close:hover {
+        background-color: rgba(255,255,255,0.2);
+        }
+
+        .notice-close:focus {
+        outline: 2px solid white;
+        outline-offset: 2px;
+        }
+
+        @keyframes slideDown {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        }
+
+        .notice-bar.closing {
+        animation: slideUp 0.3s ease-in forwards;
+        }
+
+        @keyframes slideUp {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        }
+
+/* 공지바가 있을 때 본문 내용을 아래로 밀어내기 */
+body.notice-active {
+  padding-top: 48px;
+}
   </style>
 </head>
 <body>
+    <div id="notice-bar" class="notice-bar">
+  <div class="notice-content">
+    <span class="notice-text">🚧 현재 사이트 개발 중입니다. 곧 완성하여 찾아 뵙겠습니다.</span>
+    <button class="notice-close" onclick="closeNotice()" aria-label="공지 닫기">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+</div>
+
   <header>
     <div class="container">
       <nav>
-        <div class="logo" aria-label="씽즈브레인 로고 및 회사명">
-          <!-- 미래지향적 미니멀 심볼형 로고 SVG -->
-          <img src="./images/ci.png" width="100" height="100"/>
-        
-
-          <div class="logo-text">
+        <div class="logo">
+        <a href="index.html" aria-label="씽즈브레인 홈페이지로 이동">
+            <img src="./images/ci.png" width="100" height="100" alt="씽즈브레인 로고"/>
+            <div class="logo-text">
             <span class="logo-ko">씽즈브레인</span>
             <span class="logo-en">THINGS BRAIN Inc.</span>
-          </div>
+            </div>
+        </a>
         </div>
+        
+        <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
         <div class="menu" role="navigation" aria-label="주요 메뉴">
-          <a href="#about">About</a>
-          <a href="#solutions">Solutions</a>
-          <a href="#investors">Investors</a>
-          <a href="#clients">Clients</a>
-          <a href="#contact">Contact</a>
+          <a href="./about.html">About</a>
+          <a href="./solutions.html">Solutions</a>
+          <a href="./investors.html">Investors</a>
+          <a href="./clients.html">Clients</a>
+          <a href="./contact.html">Contact</a>
         </div>
       </nav>
     </div>
@@ -351,8 +566,9 @@
           내일을 함께 만듭니다.
         </p>
         <div class="hero-btns">
-          <button class="hero-btn" type="button">회사소개</button>
-          <button class="hero-btn outline" type="button">문의하기</button>
+          <!-- <button class="hero-btn" type="button">회사소개</button> -->
+            <a href="about.html" class="hero-btn" role="button">회사소개</a>
+            <a href="./contact.html" class="hero-btn outline" role="button">문의하기</a>
         </div>
       </div>
       <div class="hero-graphic" aria-hidden="true">
@@ -390,34 +606,34 @@
       <div class="main-card">
         <div class="card-title">About Us</div>
         <div class="card-desc">
-          인간 중심 AI 스토리, 미션/비전, 핵심 가치 등<br>
-          (회사 소개, 철학, 비전, 가치관 등 간략 설명)
+          씽즈브레인은 듀얼브레인 이론을 바탕으로 한 인간 중심 AI 혁신 !<br>
+          빠른 직감과 신중한 사고의 조화로 미래를 설계합니다.
         </div>
-        <a href="#about" class="card-more">자세히보기</a>
+        <a href="./about.html" class="card-more">자세히보기</a>
       </div>
       <div class="main-card">
         <div class="card-title">Our Solutions</div>
         <div class="card-desc">
-          주요 AI 서비스/제품 소개, 실제 적용 사례, 데모 영상 등<br>
-          (서비스 목록, 특징, 데모 등)
+          MCP(Model Context Protocol)는 LLM이 외부 데이터 소스와 다양한 업무용 도구들을 표준화된 방식으로 연결할 수 있게 해주는 프로토콜로, 제조업의 MES 시스템부터 CRM, ERP까지 기업 내 모든 설비와 시스템을 자연어 명령만으로 제어하고 자동화할 수 있습니다.<br>
+          이를 통해 생산라인 최적화, 영업 프로세스 자동화, 실시간 데이터 분석 등이 가능해져 운영비용 20% 절감과 생산성 30% 향상 같은 실질적 성과를 달성할 수 있는 AI 자동화 솔루션입니다.
         </div>
-        <a href="#solutions" class="card-more">자세히보기</a>
+        <a href="./solutions.html" class="card-more">자세히보기</a>
       </div>
       <div class="main-card">
         <div class="card-title">For Investors</div>
         <div class="card-desc">
-          투자 포인트, 성장 전략, 시장 전망, 신뢰성 강조<br>
-          (투자자 대상 정보, 성장성, 비전 등)
+          현재 AI 자동화 기업들이 활발한 투자 유치에 성공하고 있는 시장 상황에서 높은 투자 매력도를 갖추고 있습니다.<br>
+          특히 컴퓨터 시스템 통합과 AI 소프트웨어 개발 역량을 바탕으로 제조업 스마트화와 산업 자동화라는 국가 핵심 정책 방향성과 일치하는 솔루션을 제공하여 주요 투자기관들의 관심을 받을 수 있는 최적의 투자 타이밍에 위치해 있습니다.
         </div>
-        <a href="#investors" class="card-more">자세히보기</a>
+        <a href="./investors.html" class="card-more">자세히보기</a>
       </div>
       <div class="main-card">
         <div class="card-title">For Clients</div>
         <div class="card-desc">
-          고객 성공 사례, 맞춤형 솔루션 안내, 문의/상담<br>
-          (고객 사례, 상담 안내 등)
+          제조업체의 생산성 30% 향상과 운영비 20% 절감을 달성한 스마트 팩토리 구축 사례를 비롯해, 물류센터 자동화로 처리시간 50% 단축, 품질관리 시스템으로 불량률 90% 감소 등 다양한 산업 분야에서 검증된 AI 자동화 성과를 보유하고 있습니다.<br>
+          각 기업의 특성과 요구사항에 맞춘 맞춤형 MCP 연동 솔루션을 제공하며, 24시간 기술지원과 함께 무료 컨설팅 및 POC(개념증명) 서비스를 통해 고객의 디지털 전환을 완벽하게 지원하고 있습니다.
         </div>
-        <a href="#clients" class="card-more">자세히보기</a>
+        <a href="./clients.html" class="card-more">자세히보기</a>
       </div>
     </div>
 
@@ -447,5 +663,94 @@
   <footer>
     &copy; 2025 씽즈브레인 (Things Brain Inc.) All rights reserved.
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger');
+      const menu = document.querySelector('.menu');
+
+      hamburger.addEventListener('click', function() {
+        menu.classList.toggle('open');
+        hamburger.classList.toggle('is-active');
+        
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !expanded);
+        hamburger.setAttribute('aria-label', expanded ? '메뉴 열기' : '메뉴 닫기');
+      });
+
+      // 메뉴 항목 클릭 시 모바일 메뉴 닫기
+      const menuLinks = document.querySelectorAll('.menu a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        });
+      });
+
+      // 화면 크기 변경 시 메뉴 상태 초기화
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          menu.classList.remove('open');
+          hamburger.classList.remove('is-active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', '메뉴 열기');
+        }
+      });
+    });
+    // 페이지 로드 시 공지바 표시
+document.addEventListener('DOMContentLoaded', function() {
+  // 이전에 닫았는지 확인 (로컬 스토리지 사용)
+  const noticeClosed = localStorage.getItem('noticeClosed');
+  
+  if (!noticeClosed) {
+    document.body.classList.add('notice-active');
+  } else {
+    // 이미 닫았다면 공지바 숨기기
+    const noticeBar = document.getElementById('notice-bar');
+    if (noticeBar) {
+      noticeBar.style.display = 'none';
+    }
+  }
+});
+
+// 공지 닫기 함수
+function closeNotice() {
+  const noticeBar = document.getElementById('notice-bar');
+  
+  // 닫기 애니메이션 적용
+  noticeBar.classList.add('closing');
+  
+  // 애니메이션 완료 후 요소 제거
+  setTimeout(() => {
+    noticeBar.style.display = 'none';
+    document.body.classList.remove('notice-active');
+    
+    // 로컬 스토리지에 닫힘 상태 저장 (24시간 후 다시 표시)
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    localStorage.setItem('noticeClosed', tomorrow.getTime());
+  }, 300);
+}
+
+// 24시간 후 다시 표시하기 위한 체크
+function checkNoticeExpiry() {
+  const noticeClosed = localStorage.getItem('noticeClosed');
+  if (noticeClosed) {
+    const closedTime = parseInt(noticeClosed);
+    const now = new Date().getTime();
+    
+    // 24시간이 지났다면 로컬 스토리지에서 제거
+    if (now > closedTime) {
+      localStorage.removeItem('noticeClosed');
+    }
+  }
+}
+
+// 페이지 로드 시 만료 체크
+checkNoticeExpiry();
+
+  </script>
 </body>
 </html>
